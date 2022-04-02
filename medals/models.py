@@ -17,5 +17,6 @@ class Medal(models.Model):
 
     event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
     olympic_game = models.ForeignKey(Olympic, on_delete=models.CASCADE)
-    athlete = models.ForeignKey(Athlete, null=True, on_delete=models.SET_NULL)
+    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
     medal_type = models.CharField(max_length=10, choices=MEDAL_CHOICES)
+    athlete_age = models.IntegerField()

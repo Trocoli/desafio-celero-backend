@@ -1,0 +1,9 @@
+Put age of at5hletes  - medals 
+
+
+substituir ids nos medals por data ou hpylerinks
+
+adcionar detail_url 
+
+import data from csv
+testing 
