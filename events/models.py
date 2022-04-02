@@ -14,5 +14,8 @@ class Event(models.Model):
     athletes = models.ManyToManyField(Athlete, related_name="athletes_in_events")
     olympic_game = models.ForeignKey(Olympic, related_name="olympic_game", on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = ('event_name', 'olympic_game',) # guarantee that there's only one event entry for each olympic. 
+
     def __str__(self):
         return self.event_name
