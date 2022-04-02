@@ -6,8 +6,8 @@ from django.db.models.deletion import PROTECT
 class Athlete(models.Model):
 
     SEX_CHOICES = (
-        ("Female", "F"),
-        ("Male", "M")
+        ("F", "Female"),
+        ("M", "Male")
     )
 
     name = models.CharField(max_length=200, blank=False, null = False)
