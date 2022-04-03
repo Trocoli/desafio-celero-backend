@@ -1,10 +1,12 @@
-Put age of at5hletes  - medals 
 
 
-substituir ids nos medals por data ou hpylerinks
+criar função de criação de slug substituir id's por slug 
 
-adcionar detail_url 
 
-import data from csv
+adicionar filtros 
+comentar e documentar 
+diagramra relacional 
 testing 
 README 
+
+

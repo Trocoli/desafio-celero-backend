@@ -37,29 +37,37 @@ def upload_data(request):
     for id_, row in enumerate(reader):
 
             # Athletes data
-            id = row[1] # change all for -1 when changing csv file 
-            name = row[2]
-            sex = row[3]
-            height = row[5]
-            weight = row[6]
-            team = row[7]
+            id = row[0] # change all for -1 when changing csv file 
+            name = row[1]
+            sex = row[2]
+            height = row[4]
+            weight = row[5]
+            team = row[6]
 
             # Olympic games data
-            year = row[10]
-            season = row[11]
-            city = row[12]
+            year = row[9]
+            season = row[10]
+            city = row[11]
 
             # events data
-            event_name = row[14]
-            sport_name = row[13]
+            event_name = row[13]
+            sport_name = row[12]
 
             # medals
-            medal = row[15]
-            athlete_age = float(row[4])
+            medal = row[14]
+            athlete_age = row[3]
+            if(athlete_age != 'NA'):
+                athlete_age = float(row[3])
+            else:
+                athlete_age = None
 
-            athlete = Athlete(id, name, sex, height, weight, team) # save athlete object 
-            athletes_list.append(id)
-            athlete.save()
+            # save athlete object
+            try:
+                obj = Athlete.objects.get(pk = id)
+            except Athlete.DoesNotExist:
+                athlete = Athlete(id, name, sex, height, weight, team)  
+                athlete.save()
+                print("Successfully added athlete: ", name)
             
             # save Olympic games object 
             try:
@@ -68,24 +76,26 @@ def upload_data(request):
                 obj = Olympic(olympic_id, year, season, city) # create olympic object and increment Id, change for slug later
                 olympic_id += 1
                 obj.save()
+                print("Successfully added olympic: " + city + year)
 
             get_olympic_obj = Olympic.objects.get(year=year, city = city) # get olympic game that the event took place in
             try:
                 obj = Event.objects.get(event_name=event_name, olympic_game = get_olympic_obj.id) # check if this event already exists 
-            except Olympic.DoesNotExist:
+            except Event.DoesNotExist:
                 obj = Event(event_id, event_name, sport_name, get_olympic_obj.id) # create event object and increment Id, change for slug later
                 event_id += 1
                 obj.save()
                 obj.athletes.add(id)
+                print("Successfully added event: ", event_name)
 
             # insert medals objs
-            get_event_obj = Event.objects.get(event_name=event_name, olympic_game = get_olympic_obj.id)
-            get_athlete_obj = Athlete.objects.get(name=name)
-            print(get_athlete_obj)
-            if(medal != ""): # check if there's a medal for this athlete in this event. 
+            get_event_obj = Event.objects.get(event_name=event_name, olympic_game = get_olympic_obj.id) # Get event object to add as foreign key
+            get_athlete_obj = Athlete.objects.get(pk = id) # Get athlete object to add as foreign key 
+            if(medal != "" and medal != 'NA'): # check if there's a medal for this athlete in this event. AND NOT NA
                 medal_obj = Medal(medal_id, get_event_obj.id, get_olympic_obj.id, get_athlete_obj.id, medal, athlete_age)
                 medal_id += 1
                 medal_obj.save()
+                print("Successfully inserted medal: " + medal + " for " + event_name + " event of " + str(get_olympic_obj.year))
 
 # todo test full csv. 
 

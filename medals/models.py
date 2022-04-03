@@ -15,8 +15,11 @@ class Medal(models.Model):
         ("bronze", "Bronze")
     )
 
-    event_name = models.ForeignKey(Event, on_delete=models.CASCADE)
+    event_name = models.ForeignKey(Event, related_name= 'winners', on_delete=models.CASCADE)
     olympic_game = models.ForeignKey(Olympic, on_delete=models.CASCADE)
-    athlete = models.ForeignKey(Athlete, on_delete=models.CASCADE)
+    athlete = models.ForeignKey(Athlete, related_name = 'athlete_medals', on_delete=models.CASCADE)
     medal_type = models.CharField(max_length=10, choices=MEDAL_CHOICES)
-    athlete_age = models.IntegerField()
+    athlete_age = models.IntegerField(null=True)
+
+    def __str__(self):
+        return self.medal_type + ' - ' + self.athlete.name 
