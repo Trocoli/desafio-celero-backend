@@ -2,7 +2,7 @@
 
 criar função de criação de slug substituir id's por slug 
 
-
+delete DB and add to gitignore
 adicionar filtros 
 comentar e documentar 
 diagramra relacional 
