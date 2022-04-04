@@ -41,6 +41,7 @@ class EventDetailSerializer(serializers.ModelSerializer):
         depth= 1
         model = Event
         fields = [
+            'id',
             'event_name',
             'sport_name',
             'athletes',

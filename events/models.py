@@ -18,4 +18,4 @@ class Event(models.Model):
         unique_together = ('event_name', 'olympic_game',) # guarantee that there's only one event entry for each olympic. 
 
     def __str__(self):
-        return self.event_name + ' - ' + str(self.olympic_game.year) 
+        return  ' - ' + self.event_name + ' - ' + self.olympic_game.city + ' ' + str(self.olympic_game.year) 

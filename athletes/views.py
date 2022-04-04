@@ -2,6 +2,7 @@ from .models import Athlete
 from rest_framework import viewsets
 from rest_framework import permissions
 from .serializers import AthleteDetailSerializer, AthleteSerializer 
+from rest_framework import filters 
 
 from rest_framework.generics import (
     ListCreateAPIView,
@@ -13,6 +14,8 @@ class AthletesListAPIView(ListCreateAPIView):
 
     queryset = Athlete.objects.all().order_by('-id')
     serializer_class = AthleteSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'height', 'weight', 'team',]
 
 class AthletesRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 

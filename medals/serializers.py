@@ -14,6 +14,7 @@ class MedalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Medal
+        depth = 1
         fields = [
             'event_name',
             'olympic_game',

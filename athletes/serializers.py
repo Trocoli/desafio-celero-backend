@@ -1,6 +1,5 @@
 from pyexpat import model
 
-from django.template import RequestContext
 from medals.models import Medal
 from events.models import Event
 from medals.serializers import MedalSerializer
@@ -8,14 +7,13 @@ from .models import Athlete
 from rest_framework import serializers
 from rest_framework.relations import HyperlinkedIdentityField, StringRelatedField
 
+
 from rest_framework.serializers import (
     ModelSerializer,
     HyperlinkedIdentityField,
     SerializerMethodField
 )
 
-# Todo 
-# Add detail serializer 
 
 class AthleteSerializer(serializers.ModelSerializer):
 
@@ -24,8 +22,8 @@ class AthleteSerializer(serializers.ModelSerializer):
         lookup_field='pk'
     )
 
-    medal_count = SerializerMethodField()
-    events_count = SerializerMethodField()
+    #medal_count = SerializerMethodField()
+    #events_count = SerializerMethodField()
 
     class Meta:
         model = Athlete
@@ -37,17 +35,16 @@ class AthleteSerializer(serializers.ModelSerializer):
             'weight',
             'team',
             'detail_url',
-            'medal_count',
             'events_count',
-            # events , 
+            'medals_count'
         ]
-    def get_medal_count(self, obj):   #  contador de postagens e usuários por grupos. abrir detalhes para visualizar  
-        count =  Medal.objects.filter(athlete = obj.id).count()
-        return count
+#    def get_medal_count(self, obj):   #  contador de postagens e usuários por grupos. abrir detalhes para visualizar  
+ #       count =  Medal.objects.filter(athlete = obj.id).count()
+  #      return count
     
-    def get_events_count(self, obj):
-        count = Event.objects.filter(athletes = obj.id).count()
-        return count
+   # def get_events_count(self, obj):
+    #    count = Event.objects.filter(athletes = obj.id).count()
+     #   return count
 
 class AthleteDetailSerializer(serializers.ModelSerializer):
 
@@ -55,7 +52,7 @@ class AthleteDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Athlete
-        depth=1
+        depth=1 # show foreign keys in detail
         fields = [
             'id',
             'name',
@@ -63,6 +60,6 @@ class AthleteDetailSerializer(serializers.ModelSerializer):
             'height',
             'weight',
             'team',
-            'athlete_events',
-            'athlete_medals'
+            'athlete_events', # comes from related name in events models
+            'athlete_medals'# comes from related name in medals models
         ]

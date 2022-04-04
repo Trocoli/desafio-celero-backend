@@ -16,6 +16,8 @@ class Athlete(models.Model):
     height = models.CharField(max_length=10)
     weight = models.CharField(max_length=10)
     team = models.CharField(max_length=15, blank=False, null=False)
+    medals_count = models.IntegerField(default=0)
+    events_count = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
