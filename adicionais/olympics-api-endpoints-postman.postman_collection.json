@@ -1,0 +1,486 @@
+{
+	"info": {
+		"_postman_id": "e4e7016c-0b77-47bf-bde4-cf0df92f4616",
+		"name": "olympics-api-endpoints-postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "athletes",
+			"item": [
+				{
+					"name": "/athletes/",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/athletes/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"athletes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/athletes/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "phelpsts",
+									"type": "default"
+								},
+								{
+									"key": "sex",
+									"value": "Male",
+									"type": "default"
+								},
+								{
+									"key": "height",
+									"value": "186",
+									"type": "default"
+								},
+								{
+									"key": "weight",
+									"value": "88",
+									"type": "default"
+								},
+								{
+									"key": "team",
+									"value": "spain",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/athletes/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"athletes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/athletes/:id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "/athletes/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Ygor",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/athletes/1/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"athletes",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/athlete/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/athletes/1/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"athletes",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "olympics",
+			"item": [
+				{
+					"name": "/olympics/list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/olympics/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"olympics",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/olympic/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"year\": \"2022\",\r\n    \"season\": \"winter\",\r\n    \"city\": \"Beijing\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/olympics/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"olympics",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/olympic/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/olympics/1/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"olympics",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/olympic/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "year",
+									"value": "2020",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{URL}}/olympics/1/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"olympics",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/olympic/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/olympics/1/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"olympics",
+								"1",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "medals",
+			"item": [
+				{
+					"name": "/medals/list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/medals/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"medals",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/medals/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"event_name\": \"1\",\r\n    \"olympic_game\": \"2\",\r\n    \"athlete\": \"1\",\r\n    \"medal_type\": \"silver\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/medal/list/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"medal",
+								"list",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "events",
+			"item": [
+				{
+					"name": "/events/list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/events/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"events",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/events/create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"event_name\": \"surf male \",\r\n    \"sport_name\": \"surf\",\r\n    \"athletes\": [\r\n        1, 3\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/events/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"events",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/event/:id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{URL}}/events/2",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"events",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/events/update/",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/events/update/:id/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"events",
+								"update",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/events/delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/events/update/:id/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"events",
+								"update",
+								":id",
+								""
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "populate",
+			"item": [
+				{
+					"name": "/populate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/populate/",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"populate",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:8000",
+			"type": "default"
+		}
+	]
+}
