@@ -1,13 +1,15 @@
 
+/***** serializers ****/
 tirar espaços no inicio do nome 
 criar função de criação de slug substituir id's por slug 
 improve serializers 
-
+ 
+/******* requests *****/
 add relations to olympic serializers 
 delete tmp files if request csv doesn't complete 
+celery
 
 delete DB and add to gitignore
-adicionar filtros 
 comentar e documentar 
 diagramra relacional 
 testing 
