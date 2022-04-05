@@ -51,26 +51,81 @@ Para executar os testes. Será necessário alguns passos a mais, seguem abaixo a
 ## [](#utilizando-app)Endpoints
 
 ```
-	Para popular o banco de dados é necessário fazer o download do arquivo [csv] '120 years of olympic history'(https://www.kaggle.com/datasets/heesoo37/120-years-of-olympic-history-athletes-and-results)
+	Para popular o banco de dados é necessário fazer o download do arquivo [csv] '120 years of olympic history' disponível em: https://www.kaggle.com/datasets/heesoo37/120-years-of-olympic-history-athletes-and-results
+    e inserindo um método de [POST] através do postman 
+    --> [POST] ' https://localhost:8000/populate/':
+            enviar o arquivo csv baixado com nome e tipo 'file' através do body -> Form Data
+
 	Criação manual e listagem de atletas:
 		--> [POST] 'https://localhost:8000/athletes':
 			permite a criação do atleta enviando através do body um JSON com:
-				 Nome do atleta,
-				 Sexo,
-				 Altura,
-				 Peso,
-				 Time,
-		--> [GET] 'https://localhost:8000/athletes':
+				 'name',
+				 'sex',
+				 'height',
+				 'weight',
+				 'team',
+		--> [GET] 'https://localhost:8000/athletes/':
 			Exibe a lista de todos os atletas inseridos 
 		
-		--> [GET] 'https://localhost:8000/athletes':
+		--> [GET] 'https://localhost:8000/athletes/':
 			Exibe a lista de todos os atletas inseridos 
 
-		--> [GET] 'https://localhost:8000/athletes':
-			Exibe a lista de todos os atletas inseridos 
+		--> [GET] 'https://localhost:8000/{id_do_atleta_/)':
+			Exibe detalhes de atleta com o ID que foi passado no request
 
-		--> [GET] 'https://localhost:8000/athletes':
-			Exibe a lista de todos os atletas inseridos 
+		--> [PATCH] 'https://localhost:8000/update/athletes/':
+			Permite o update do atleta com o ID que foi passado no request
+
+		--> [DELETE] 'https://localhost:8000/update/athletes/':
+			Permite o update do atleta com o ID que foi passado no request
+        
+    Criação de objeto de olimíadas:
+    		--> [POST] 'https://localhost:8000/olympics/':
+			permite a criação da Olimpíada enviando através do body um JSON com:
+				 'year':
+				 'season': (Summer ou Winter),
+				 'city',
+            --> [GET] 'https://localhost:8000/olympics/':
+                lista todos os jogos olimpicos cadastrados
+            
+            --> [GET, PATCH or DELETE]  'https://localhost:8000/olympics/{{olympic_id}}':
+                    permite exibir detalhes, editar ou deletar uma olimpíada 
+
+    Criação de objeto de evento olímpíco :
+    		--> [POST] 'https://localhost:8000/events/':
+			permite a criação do evento olímpico enviando através do body um JSON com:
+				 'event_name':
+				 'sport_name': 
+				 'athletes': (lista com ID dos atletas),
+                 'olympic_game': (ID de olimpiada relacionada a evento)
+
+            --> [GET] 'https://localhost:8000/events/':
+                lista todos os eventos cadastrados
+            
+    		--> [GET] 'https://localhost:8000/events/{id_do_evento/)':
+			Exibe detalhes do evento com o ID que foi passado no request
+
+		    --> [PATCH] 'https://localhost:8000/events/update/{{id}}':
+			Permite o update do evento com o ID que foi passado no request
+
+		    --> [DELETE] 'https://localhost:8000/events/update/{{id}}':
+			Permite o update do evento com o ID que foi passado no request
+
+    Inserção de medalhas:
+    		--> [POST] 'https://localhost:8000/medals/':
+			permite a criação da medalha enviando através do body um JSON com:
+				 'event_name': (chave estrangeira com ID do evento relacionado),
+				 'olympic_game': (chave estrangeira com ID da olimpíada relacionada),
+				 'athlete': (chave estrangeira com ID do atleta ganhador da medalha),
+                 'medal_type': (Gold, Silver ou Bronze)
+
+            --> [GET] 'https://localhost:8000/olympics/':
+                lista todas as medalhas cadastradas
+            
+            --> [GET, PATCH or DELETE]  'https://localhost:8000/medals/{{medal}}':
+                    permite exibir detalhes, editar ou deletar uma medalha 
+            
+
 
 
 
