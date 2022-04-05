@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 
+# test new branch 
+
 # Models import
 from athletes.models import Athlete
 from medals.models import Medal
@@ -17,19 +19,26 @@ fs = FileSystemStorage(location='tmp/')
 @csrf_exempt
 @api_view(['POST'])
 def upload_data(request):
-    file = request.FILES["file"]
+    """
+    A funçao de popular App  é acessada através do envio de o arquivo CSV "120 years of Olympic history: athletes and results" que pode ser baixado 
+    através do link: https://www.kaggle.com/datasets/heesoo37/120-years-of-olympic-history-athletes-and-results
+    pre fazer o envio do arquivo é necessario o uso de uma aplicação de testes de API, preferencialmente o POSTMAN.
+    A função é acessada através do endpoint /populate/ uitlizando o método POST e enviando através do Form-Data no Body 
+    uma key file do tipo "File" que recebe o arquivo CSV e realizando o request.
+    """
+    file = request.FILES["file"] # Recebe o arquivo do Request
 
     content = file.read()
     file_content = ContentFile(content)
     file_name = fs.save(
-        "_tmp.csv", file_content
+        "_tmp.csv", file_content # Salva o conteúdo do arquivo em uma pasta temporária 
     )
     tmp_file = fs.path(file_name)
 
-    csv_file = open(tmp_file, errors = "ignore")
+    csv_file = open(tmp_file, errors = "ignore") # Errors="ignore" serve para alterar o nome do arquivo caso já possua um CSV inserido
     reader = csv.reader(csv_file)
     next(reader) # Ignore column names 
-    olympic_id = 0
+    olympic_id = 0 # ID's para criação de objeto que será incrementado após adicionar um objeto, trocar eventualmente por função de criação de slug
     event_id = 0
     medal_id = 0
 
@@ -56,18 +65,19 @@ def upload_data(request):
             medal = row[14]
             athlete_age = row[3]
             if(athlete_age != 'NA'):
-                athlete_age = float(row[3])
+                athlete_age = float(row[3]) # receber somente idades que estão inseridas na base de dados
             else:
                 athlete_age = None
 
             # save athlete object
             try:
-                obj = Athlete.objects.get(pk=id)
+                obj = Athlete.objects.get(pk=id) # checar se atleta ja foi inserido, caso não exista nenhum atleta com esse ID cria um novo. 
             except Athlete.DoesNotExist:
                 athlete = Athlete(id, name, sex, height, weight, team)  
                 athlete.save()
                 print("Successfully added athlete: ", name)
             
+
             # save Olympic games object 
             try:
                 obj = Olympic.objects.get(year=year, city=city) # check if olympic game already exists 
@@ -79,20 +89,27 @@ def upload_data(request):
 
             get_olympic_obj = Olympic.objects.get(year=year, city=city) # get olympic game that the event took place in
             get_athlete_obj = Athlete.objects.get(pk = id) # Get athlete object to add as foreign key 
+
+
+            # criação de objetos de eventos que ocorreram ans olimpiadas
             try:
                 obj = Event.objects.get(event_name=event_name, olympic_game=get_olympic_obj.id) # check if this event already exists
-                obj.athletes.add(id) 
+                obj.athletes.add(id)
+                get_athlete_obj.events_count += 1 # aux para campo de quantidade de eventos que o atleta participou em sua carreira
+                get_athlete_obj.save()
             except Event.DoesNotExist:
                 obj = Event(event_id, event_name, sport_name, get_olympic_obj.id) # create event object and increment Id, change for slug later
                 event_id += 1
                 obj.save()
                 obj.athletes.add(id)
-                get_athlete_obj.events_count += 1
+                get_athlete_obj.events_count += 1 # aux para campo de quantidade de eventos que o atleta participou em sua carreira
                 get_athlete_obj.save()
                 print("Successfully added event: ", event_name)
 
+
             # insert medals objs
             get_event_obj = Event.objects.get(event_name=event_name, olympic_game=get_olympic_obj.id) # Get event object to add as foreign key
+
             try:
                 medal_exists = Medal.objects.get(event_name=get_event_obj.id, olympic_game=get_olympic_obj.id )
             except Medal.DoesNotExist:
@@ -104,8 +121,6 @@ def upload_data(request):
                     get_athlete_obj.medals_count += 1
                     get_athlete_obj.save()
                     print("Successfully inserted medal: " + medal + " for " + event_name + " event of " + str(get_olympic_obj.year))
-
-# todo test full csv. 
 
     csv_file.close()
     fs.delete(tmp_file) # delete csv file after importing data 

@@ -4,7 +4,7 @@ from .views import EventDetail, EventsListAPIView, EventRetrieveUpdateDestroyAPI
 app_name = "event"
 
 urlpatterns = [
-    path('list/', EventsListAPIView.as_view(), name='events-list'),
+    path('', EventsListAPIView.as_view(), name='events-list'),
     path('update/<int:pk>/', EventRetrieveUpdateDestroyAPIView.as_view(), name='event-update-destroy'),
     path('<int:pk>/', EventDetail.as_view(), name='event-detail')
 ]
