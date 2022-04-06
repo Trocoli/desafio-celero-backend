@@ -16,6 +16,7 @@ from events.models import Event
 
 fs = FileSystemStorage(location='tmp/')
 
+# todo use celery task
 @csrf_exempt
 @api_view(['POST'])
 def upload_data(request):
@@ -43,6 +44,7 @@ def upload_data(request):
     olympic_id = 0 # ID's para criação de objeto, eventualmente trocar por função de criar slug 
     event_id = 0
     medal_id = 0
+
 
     for id_, row in enumerate(reader): # iterate through rows of csv assigning columns to variables and creating objects 
 
@@ -72,6 +74,7 @@ def upload_data(request):
                 athlete_age = None
 
             # save athlete object
+            #paavo
             try:
                 athlete_obj = Athlete.objects.get(pk=id)
             except Athlete.DoesNotExist:
@@ -97,12 +100,12 @@ def upload_data(request):
 
             try:
                 obj = Event.objects.get(event_name=event_name, olympic_game=olympic_obj.id)
-                obj.athletes.add(athlete_obj.id)
+                obj.athletes.add(id)
             except Event.DoesNotExist:
                 obj = Event(event_id, event_name, sport_name, olympic_obj.id) # create event object and increment Id, change for slug later
                 event_id += 1
                 obj.save()
-                obj.athletes.add(athlete_obj.id)
+                obj.athletes.add(id)
                 print("Successfully added event: ", event_name)
 
             # insert medals objs
