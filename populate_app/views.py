@@ -1,6 +1,8 @@
 import csv
+from shutil import ExecError
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
+from django.db import IntegrityError
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -71,50 +73,50 @@ def upload_data(request):
 
             # save athlete object
             try:
-                obj = Athlete.objects.get(pk=id)
+                athlete_obj = Athlete.objects.get(pk=id)
             except Athlete.DoesNotExist:
-                athlete = Athlete(id, name, sex, height, weight, team)  
-                athlete.save()
+                athlete_obj = Athlete(id, name, sex, height, weight, team)  
+                athlete_obj.save()
                 print("Successfully added athlete: ", name)
             
             # save Olympic games object 
             try:
-                obj = Olympic.objects.get(year=year, city=city) # check if olympic game already exists 
+                olympic_obj = Olympic.objects.get(year=year, city=city) # check if olympic game already exists 
             except Olympic.DoesNotExist:
-                obj = Olympic(olympic_id, year, season, city) # create olympic object and increment Id, change for slug later
+                olympic_obj = Olympic(olympic_id, year, season, city) # create olympic object and increment Id, change for slug later
                 olympic_id += 1
-                obj.save()
+                olympic_obj.save()
                 print("Successfully added olympic: " + city + year)
 
-            get_olympic_obj = Olympic.objects.get(year=year, city=city) # get olympic game that the event took place in
-            get_athlete_obj = Athlete.objects.get(pk = id) # Get athlete object to add as foreign key 
+        #    get_olympic_obj = Olympic.objects.get(year=year, city=city) # get olympic game that the event took place in
+        #   get_athlete_obj = Athlete.objects.get(pk = id) # Get athlete object to add as foreign key
+
+
+            # it's good up to this point, and obj creationg is good, the problem is only when adding athletes, 
+            # need to find a way to check the whole line if the medal needs to be added and event needs to be added 
+
             try:
-                obj = Event.objects.get(event_name=event_name, olympic_game=get_olympic_obj.id) # check if this event already exists
-                obj.athletes.add(id) # if event already created just add athlete to events and count of events + 1
-                get_athlete_obj.events_count += 1
-                get_athlete_obj.save()
+                obj = Event.objects.get(event_name=event_name, olympic_game=olympic_obj.id)
+                obj.athletes.add(athlete_obj.id)
             except Event.DoesNotExist:
-                obj = Event(event_id, event_name, sport_name, get_olympic_obj.id) # create event object and increment Id, change for slug later
+                obj = Event(event_id, event_name, sport_name, olympic_obj.id) # create event object and increment Id, change for slug later
                 event_id += 1
                 obj.save()
-                obj.athletes.add(id)
-                get_athlete_obj.events_count += 1
-                get_athlete_obj.save()
+                obj.athletes.add(athlete_obj.id)
                 print("Successfully added event: ", event_name)
 
             # insert medals objs
-            get_event_obj = Event.objects.get(event_name=event_name, olympic_game=get_olympic_obj.id) # Get event object to add as foreign key
             try:
-                medal_exists = Medal.objects.get(event_name=get_event_obj.id, olympic_game=get_olympic_obj.id )
+                Medal.objects.get(event_name=obj.id, olympic_game=olympic_obj.id, medal_type=medal )
             except Medal.DoesNotExist:
                 if(medal != "" and medal != 'NA'): # check if there's a medal for this athlete in this event. AND NOT NA
-                    medal_obj = Medal(medal_id, get_event_obj.id, get_olympic_obj.id, medal, athlete_age)
+                    medal_obj = Medal(medal_id, obj.id, olympic_obj.id, medal, athlete_age)
                     medal_id += 1
                     medal_obj.save()
-                    medal_obj.athlete.add(get_athlete_obj.id)
-                    get_athlete_obj.medals_count += 1
-                    get_athlete_obj.save()
-                    print("Successfully inserted medal: " + medal + " for " + event_name + " event of " + str(get_olympic_obj.year))
+                    medal_obj.athlete.add(athlete_obj.id)
+                    athlete_obj.medals_count += 1
+                    athlete_obj.save()
+                    print("Successfully inserted medal: " + medal + " for " + event_name + " event of " + str(olympic_obj.year)) 
 
 # todo test full csv. 
 

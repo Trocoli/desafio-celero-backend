@@ -22,8 +22,9 @@ class AthleteSerializer(serializers.ModelSerializer):
         lookup_field='pk'
     )
 
+
     #medal_count = SerializerMethodField()
-    #events_count = SerializerMethodField()
+    events_count = SerializerMethodField()
 
     class Meta:
         model = Athlete
@@ -42,9 +43,9 @@ class AthleteSerializer(serializers.ModelSerializer):
  #       count =  Medal.objects.filter(athlete = obj.id).count()
   #      return count
     
-   # def get_events_count(self, obj):
-    #    count = Event.objects.filter(athletes = obj.id).count()
-     #   return count
+    def get_events_count(self, obj):
+        count = Event.objects.filter(athletes = obj.id).count()
+        return count
 
 class AthleteDetailSerializer(serializers.ModelSerializer):
 
