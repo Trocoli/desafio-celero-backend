@@ -51,6 +51,8 @@ Para executar os testes. Será necessário alguns passos a mais, seguem abaixo a
 ## [](#utilizando-app)Endpoints
 
 ```
+    Na pasta adicionais possui um arquivo JSON que pode ser importado para o Postman com a collection de edpoints disponíveis.
+
 	Para popular o banco de dados é necessário fazer o download do arquivo 
     csv: '120 years of olympic history' 
     disponível em: https://www.kaggle.com/datasets/heesoo37/120-years-of-olympic-history-athletes-and-results
@@ -134,13 +136,6 @@ Para executar os testes. Será necessário alguns passos a mais, seguem abaixo a
 
 ```
 
-## [](#constru%C3%ADdo-com)Construído com
-
--   [Comic Sans](http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900) - Fonte utilizada no sistema.
--   [JQuery](http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css) - Dependencias do sistema
--   [Bootstrap](https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css) - Design do sistema
--   [Popper](https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js) - Runs like AJAX (Pop-up's)
-
 ## [](#autor)Autor
 
--   **Ygor Trócoli** - _Desenvolvedor Back-End_ - [@vini192](https://github.com/Trocoli)
+-   **Ygor Trócoli** - _Desenvolvedor Back-End_ - [@Trocoli](https://github.com/Trocoli)

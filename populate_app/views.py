@@ -17,19 +17,28 @@ fs = FileSystemStorage(location='tmp/')
 @csrf_exempt
 @api_view(['POST'])
 def upload_data(request):
-    file = request.FILES["file"]
+    """
+    Função de popular app, recebe o CSV '120 years of olympics' que pode ser baixado através do link
+    https://www.kaggle.com/datasets/heesoo37/120-years-of-olympic-history-athletes-and-results
+    é necessário mandar um request através do postman pelo endpoint "http://localhost:8000/populate"
+    na aba body é necessário enviar um método de POST através do form data 
+    com a key de nome e tipo 'file' e inserindo o arquivo CSV,
+    a função salva o arquivo no projeto temporariamente 
+    e itera por cada Row associando os dados ás suas respectitivas colunas e cria os objetos não criados ou adiciona chaves estrangeiras.
+    """
+    file = request.FILES["file"] # recebe csv pelo file, salva na memória e salva no projeto e depois lê o arquivo
 
-    content = file.read()
+    content = file.read() 
     file_content = ContentFile(content)
     file_name = fs.save(
         "_tmp.csv", file_content
     )
     tmp_file = fs.path(file_name)
 
-    csv_file = open(tmp_file, errors = "ignore")
+    csv_file = open(tmp_file, errors = "ignore") # errors = ignore troca o nome do arquivo '_temp' caso ja exista um csv com esse nome inserido 
     reader = csv.reader(csv_file)
     next(reader) # Ignore column names 
-    olympic_id = 0
+    olympic_id = 0 # ID's para criação de objeto, eventualmente trocar por função de criar slug 
     event_id = 0
     medal_id = 0
 
@@ -54,8 +63,8 @@ def upload_data(request):
 
             # medals
             medal = row[14]
-            athlete_age = row[3]
-            if(athlete_age != 'NA'):
+            athlete_age = row[3] # só recebe idade quando ela estiver inserida, idade está relacionada a medalhas pois o aruivo não mostra a idade do atleta
+            if(athlete_age != 'NA'): # mas a idade que ele tinha ao ganhar a medalha
                 athlete_age = float(row[3])
             else:
                 athlete_age = None
@@ -81,7 +90,9 @@ def upload_data(request):
             get_athlete_obj = Athlete.objects.get(pk = id) # Get athlete object to add as foreign key 
             try:
                 obj = Event.objects.get(event_name=event_name, olympic_game=get_olympic_obj.id) # check if this event already exists
-                obj.athletes.add(id) 
+                obj.athletes.add(id) # if event already created just add athlete to events and count of events + 1
+                get_athlete_obj.events_count += 1
+                get_athlete_obj.save()
             except Event.DoesNotExist:
                 obj = Event(event_id, event_name, sport_name, get_olympic_obj.id) # create event object and increment Id, change for slug later
                 event_id += 1

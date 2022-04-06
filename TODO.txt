@@ -7,6 +7,7 @@ improve serializers
 /******* requests *****/
 add relations to olympic serializers 
 delete tmp files if request csv doesn't complete 
+docker
 celery
 
 delete DB and add to gitignore

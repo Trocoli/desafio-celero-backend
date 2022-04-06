@@ -15,9 +15,9 @@ class Medal(models.Model):
         ("bronze", "Bronze")
     )
 
-    event_name = models.ForeignKey(Event, related_name= 'winners', on_delete=models.CASCADE)
-    olympic_game = models.ForeignKey(Olympic, on_delete=models.CASCADE)
-    athlete = models.ManyToManyField(Athlete, related_name = 'athlete_medals')
+    event_name = models.ForeignKey(Event, related_name= 'winners', on_delete=models.CASCADE) # chave estrangeira para evento olímpico 
+    olympic_game = models.ForeignKey(Olympic, on_delete=models.CASCADE) # chave estrangeira para olimíada
+    athlete = models.ManyToManyField(Athlete, related_name = 'athlete_medals') # chave estrangeira para atleta ganhador da medalha 
     medal_type = models.CharField(max_length=10, choices=MEDAL_CHOICES)
     athlete_age = models.IntegerField(null=True)
 
