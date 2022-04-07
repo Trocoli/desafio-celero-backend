@@ -12,12 +12,12 @@ from rest_framework.generics import (
 
 class AthletesListAPIView(ListCreateAPIView):
 
-    queryset = Athlete.objects.all().order_by('-id') # lista todos os atletas ordenação por ordem alfabética 
+    queryset = Athlete.objects.all().order_by('-name') # lista todos os atletas ordenação por ordem alfabética 
     serializer_class = AthleteSerializer
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'height', 'weight', 'team',]
 
-class AthletesRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+class AthletesRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView): # permite visualizar detalhes, editar ou excluir atleta através do endpoint '/athletes/:id'
 
     queryset = Athlete.objects.all()
     serializer_class = AthleteDetailSerializer

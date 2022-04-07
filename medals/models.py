@@ -1,5 +1,4 @@
 from secrets import choice
-from tokenize import blank_re
 from django.db import models
 from django.forms import CharField
 # foreign key imports 
@@ -18,8 +17,8 @@ class Medal(models.Model):
     event_name = models.ForeignKey(Event, related_name= 'winners', on_delete=models.CASCADE) # chave estrangeira para evento olímpico 
     olympic_game = models.ForeignKey(Olympic, on_delete=models.CASCADE) # chave estrangeira para olimíada
     athlete = models.ManyToManyField(Athlete, related_name = 'athlete_medals') # chave estrangeira para atleta ganhador da medalha 
-    medal_type = models.CharField(max_length=10, choices=MEDAL_CHOICES)
-    athlete_age = models.IntegerField(null=True)
+    medal_type = models.CharField(max_length=10, choices=MEDAL_CHOICES) # gold silver ou bronze medal 
+    athlete_age = models.IntegerField(null=True) # athlete age está relacionado a medalha pois a idade presente na base de dados é a idade do atleta ao ganhar medalha 
 
     def __str__(self):
         if(self.athlete.name):

@@ -44,9 +44,10 @@ def upload_data(request):
     olympic_id = 0 # ID's para criação de objeto, eventualmente trocar por função de criar slug 
     event_id = 0
     medal_id = 0
-
+    athlete_events = []
 
     for id_, row in enumerate(reader): # iterate through rows of csv assigning columns to variables and creating objects 
+
 
             # Athletes data
             id = row[0]  
@@ -91,22 +92,17 @@ def upload_data(request):
                 olympic_obj.save()
                 print("Successfully added olympic: " + city + year)
 
-        #    get_olympic_obj = Olympic.objects.get(year=year, city=city) # get olympic game that the event took place in
-        #   get_athlete_obj = Athlete.objects.get(pk = id) # Get athlete object to add as foreign key
-
-
-            # it's good up to this point, and obj creationg is good, the problem is only when adding athletes, 
-            # need to find a way to check the whole line if the medal needs to be added and event needs to be added 
 
             try:
                 obj = Event.objects.get(event_name=event_name, olympic_game=olympic_obj.id)
-                obj.athletes.add(id)
+                obj.athletes.add(athlete_obj)
             except Event.DoesNotExist:
                 obj = Event(event_id, event_name, sport_name, olympic_obj.id) # create event object and increment Id, change for slug later
                 event_id += 1
                 obj.save()
-                obj.athletes.add(id)
+                obj.athletes.add(athlete_obj)
                 print("Successfully added event: ", event_name)
+
 
             # insert medals objs
             try:
